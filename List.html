@@ -24,16 +24,17 @@
         
          <script>
           function fun(a){
+              pagepointer=a;
     $('tbody').children().remove();
-$.ajax({
+    $.ajax({
             url: "https://reqres.in/api/users?page="+a,
             data: {},
             beforeSend: function(){}
         }).done(function(response) {
             var trArr = new Array();
             $.each(response.data, function(i, v){
-                trArr.push('<tr><td>' + v.first_name  + '</td><td>' + v.email + '</td><td><img id="img" src="' 
-                + v.avatar + '" width="100px" /></td><td> <a class="edit" title="Edit" id="ed" data-toggle="tooltip"><i class="material-icons">&#xE254;</i> <a class="delete" id="de" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a></a>' + '</td></tr>'  );
+                trArr.push('<tr><td>' + v.first_name  +" "+v.last_name + '</td><td>' + v.email + '</td><td><img id="img" src="' 
+                + v.avatar + '" width="100px" /></td><td> <a class="edit" id="ed" title="Edit"  data-toggle="tooltip"><i class="fa fa-edit"></i></button><a class="delete" id="de" title="Delete" data-toggle="tooltip"><button "button" class="deletebtn" title="Remove row"><i class="fa fa-trash"></i></button></a></a>' + '</td></tr>'  );
                 
             });
             $('table#alk-table tbody').append(trArr.join('\n'));
@@ -42,18 +43,20 @@ $.ajax({
         </script>
         <style>
               #sw{
-          margin-top:2%;
-          margin-bottom: 2%;
+          margin-top:0%;
+        margin-bottom:2%;
           width:18%;
           border-radius:5%;
+          padding-bottom:10px;
+   
       }
       .table-wrapper{
-          width: 90%;
-         align-content: center;
+          width: 70%;
+         align-content: right;
          padding: 30px;
       }
       .table-title{
-          align-content: center;
+          align-content: right;
         
       }
       #form{
@@ -61,7 +64,7 @@ $.ajax({
                 padding:2%; 
               
                 font-size:20px;
-                border: 3px solid rgb(129, 159, 170);
+                border: 5px solid rgb(129, 159, 170);
                 width:320px;
                 
                 margin-top:3%;
@@ -74,23 +77,56 @@ $.ajax({
 
 
             }
+            #de{
+                font-size: 18px;
+                margin-left:8px;
+                color: red;
+              
+                
+
+            }
+            #ed{
+                margin-top:2px;
+                background-color:whitesmoke;
+             border: 1px solid grey;
+             padding: 6px;
+             font-size: 16px;
+            }
+            .colspan5
+            { font-size: 26px;
+               
+         
+            }
+            .pagination{
+                margin-top:50px;
+                float: right;
+             
+            }
             .container{
                 width: 60%;
                 border: 2px solid rgb(129, 159, 170);
                 background-color:whitesmoke;
-                margin-top:50px;
+                margin-top:20px;
                 padding:15px;
+                margin-bottom:25px;
           
             }
             .body{
               background-color: lightblue;
             }
            #ab{
-                width:62px;
+                width:125px;
             }
-            #ab1{
-                width:92px;
+            #ab2{
+                width:239px;
             }
+            #ab3{
+                width:125px;
+            }
+            #ab4{
+                width:auto;
+            }
+       
             
             #ll{
 
@@ -117,7 +153,7 @@ height:30px;
                 
             }
             th{
-                width: 200%;
+                width: 150%;
             }
            
 
@@ -135,10 +171,11 @@ height:30px;
             <div class="table-wrapper">
                 <div class="table-title">
                     <div class="rowspan">
-                        <div class="colspan"><h2><b>User List</b></h2></div>
-                        <div class="colspan">
+                        <div class="colspan5"><b>User List</b>
+                        
                           
                             <button id='sw' onclick="" class="col-sm-4 pull-right btn btn-primary"><i class="fa fa-plus"></i> Add New</button>
+                      
                         </div>
                     </div>
                 </div>
@@ -149,12 +186,12 @@ height:30px;
                 <div class="pull-right">
                         <nav aria-label="Page navigation example"  >
                                 <ul class="pagination">
-                                  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                  <li class="page-item" onclick=fun(pagepointer-1)><a class="page-link" href="#">Previous</a></li>
                                   <li class="page-item" onclick=fun(1)><a class="page-link" href="#">1</a></li>
                                   <li class="page-item" onclick=fun(2)><a class="page-link" href="#">2</a></li>
                                   <li class="page-item" onclick=fun(3)><a class="page-link" href="#">3</a></li>
                                   <li class="page-item" onclick=fun(4)><a class="page-link" href="#">4</a></li>
-                                  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                  <li class="page-item" onclick=fun(pagepointer+1)><a class="page-link" href="#">Next</a></li>
                                 </ul>
                               </nav>
                             </div>  
@@ -171,21 +208,36 @@ height:30px;
             var name = $("#name").val();
             var lname = $("#lname").val();
             var email = $("#email").val();
-            var markup = "<tr><td>" + name + "</td><td>" + email + "</td><td>Picture</td><td>empty</td></tr>";
+            var markup = "<tr><td>" + name +" "+lname+ "</td><td>" + email + "</td><td>Picture</td><td>empty</td></tr>";
         $("table tbody").append(markup);
      }) });
+     
+  $(document).on("click", ".edit", function(){		
+        $(this).parents("tr").find("td:not(:last-child)").each(function(){
+			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+		});		
+		$(this).parents("tr").find(".add, .edit").toggle();
+		$(".add-new").attr("disabled", "disabled");
+    });
+
+    $(document).on('click', 'button.deletebtn', function () {
+  $(this).closest('tr').remove();
+  return false;
+});
+
                 </script>
+                
                 <p id="ff"><b>User Details</b> </p>
              
          <form action="":>
             First name:
-             <p><input type="text" class="t" id="name" name="firstname" ></p>
+             <p><input type="text" class="t" id="name" name="firstname" placeholder="Chandler" required></p>
            
             Last name:
-             <p><input type="text" class="t" id="lname"name="lastname" value=></p>
+             <p><input type="text" class="t" id="lname"name="lastname" placeholder="Bing" required></p>
             
             Email ID:
-             <p><input type="text" class="t" id="email" name="email" value=></p>
+             <p><input type="text" class="t" id="email" name="email" placeholder="chandlerbing@gmail.com" required></p>
              
              <p id="s"><input type="button"  class="btn btn-primary add-row" value="Submit" ></p>
            </form> 
