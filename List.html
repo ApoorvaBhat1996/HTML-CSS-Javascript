@@ -15,6 +15,7 @@
         <link href ="bootstrap-responsive.css"rel="stylesheet"/>
         <link href ="bootstrap.min.css"rel="stylesheet"/>
         <link href ="bootstrap-responsive.min.css"rel="stylesheet"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -56,7 +57,7 @@
          align-content: right;
          padding: 30px;
          padding-bottom: 80px;
-         background-color: whitesmoke;
+         background-color: rgb(233, 229, 229);
       }
       .table-title{
           align-content: right;
@@ -206,13 +207,14 @@ height:30px;
             var name = $("#name").val();
             var lname = $("#lname").val();
             var email = $("#email").val();
-            var markup = "<tr><td>" + name +" "+lname+ "</td><td>" + email + "</td><td>Picture</td><td>empty</td></tr>";
+            var markup = "<tr><td>" + name +" "+lname+ "</td><td>" + email + "</td><td>Picture</td><td><a class='edit' id='ed' title='Edit' data-toggle='tooltip'><i class='fa fa-edit'></i></button><a class='delete' id='de' title='Delete' data-toggle='tooltip'><button 'button' class='deletebtn' title='Remove row'><i class='fa fa-trash'></i></button></a></a></td></tr>";
+            
         $("table tbody").append(markup);
      }) });
      
   $(document).on("click", ".edit", function(){		
         $(this).parents("tr").find("td:not(:last-child)").each(function(){
-			$(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+			$(this).html('<input type="text" class="form-control" value="' +   '">');
 		});		
 		$(this).parents("tr").find(".add, .edit").toggle();
 		$(".add-new").attr("disabled", "disabled");
